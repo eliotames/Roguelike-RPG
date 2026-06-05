@@ -1,0 +1,13 @@
+{
+  "name": "roguelike-rpg",
+  "version": "0.1.0",
+  "description": "A 2D Fantasy RPG built with Phaser 3",
+  "private": true,
+  "scripts": {
+    "start": "npx http-server . -p 8080 -c-1",
+    "dev": "npx http-server . -p 8080 -c-1 -o"
+  },
+  "dependencies": {
+    "phaser": "^3.87.0"
+  }
+}
