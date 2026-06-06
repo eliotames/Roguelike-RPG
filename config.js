@@ -1,8 +1,7 @@
-const config = {
+var config = {
     type: Phaser.AUTO,
     width: 800,
     height: 600,
-    parent: document.body,
     backgroundColor: '#1a1a2e',
     physics: {
         default: 'arcade',
@@ -12,11 +11,7 @@ const config = {
         }
     },
     scene: [Boot, Preloader, MainMenu, Game],
-    pixelArt: true,
-    scale: {
-        mode: Phaser.Scale.FIT,
-        autoCenter: Phaser.Scale.CENTER_BOTH
-    }
+    pixelArt: true
 };
 
-const game = new Phaser.Game(config);
+var game = new Phaser.Game(config);

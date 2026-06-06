@@ -1,22 +1,19 @@
-// Boot Scene for one-time setup that don't need assets
+var Boot = new Phaser.Class({
 
-class Boot extends Phaser.Scene
-{
-    constructor ()
+    Extends: Phaser.Scene,
+
+    initialize: function Boot ()
     {
-        super('Boot');
-    }
+        Phaser.Scene.call(this, 'Boot');
+    },
 
-    preload ()
+    preload: function ()
     {
-        // Any tiny asset the loading screen itself needs (background,
-        // logo, fonts) belongs here. Larger assets load in Preloader.
-    }
+    },
 
-    create ()
+    create: function ()
     {
         this.sound.pauseOnBlur = false;
-
         this.scene.start('Preloader');
     }
-}
+});

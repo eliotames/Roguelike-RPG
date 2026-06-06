@@ -1,31 +1,33 @@
-// ---- Boot Scene ----
-class Boot extends Phaser.Scene
-{
-    constructor ()
-    {
-        super('Boot');
-    }
+var Boot = new Phaser.Class({
 
-    preload ()
-    {
-    }
+    Extends: Phaser.Scene,
 
-    create ()
+    initialize: function Boot ()
+    {
+        Phaser.Scene.call(this, 'Boot');
+    },
+
+    preload: function ()
+    {
+    },
+
+    create: function ()
     {
         this.sound.pauseOnBlur = false;
         this.scene.start('Preloader');
     }
-}
+});
 
-// ---- Preloader Scene ----
-class Preloader extends Phaser.Scene
-{
-    constructor ()
+var Preloader = new Phaser.Class({
+
+    Extends: Phaser.Scene,
+
+    initialize: function Preloader ()
     {
-        super('Preloader');
-    }
+        Phaser.Scene.call(this, 'Preloader');
+    },
 
-    preload ()
+    preload: function ()
     {
         var width = this.cameras.main.width;
         var height = this.cameras.main.height;
@@ -54,9 +56,9 @@ class Preloader extends Phaser.Scene
         });
 
         this.generateAssets();
-    }
+    },
 
-    generateAssets ()
+    generateAssets: function ()
     {
         var playerCanvas = this.textures.createCanvas('player', 16, 16);
         var pCtx = playerCanvas.getContext();
@@ -147,23 +149,24 @@ class Preloader extends Phaser.Scene
         cCtx.fillStyle = '#daa520';
         cCtx.fillRect(7, 5, 2, 6);
         coinCanvas.refresh();
-    }
+    },
 
-    create ()
+    create: function ()
     {
         this.scene.start('MainMenu');
     }
-}
+});
 
-// ---- MainMenu Scene ----
-class MainMenu extends Phaser.Scene
-{
-    constructor ()
+var MainMenu = new Phaser.Class({
+
+    Extends: Phaser.Scene,
+
+    initialize: function MainMenu ()
     {
-        super('MainMenu');
-    }
+        Phaser.Scene.call(this, 'MainMenu');
+    },
 
-    create ()
+    create: function ()
     {
         var self = this;
         var width = this.cameras.main.width;
@@ -246,17 +249,18 @@ class MainMenu extends Phaser.Scene
 
         this.cameras.main.fadeIn(500, 0, 0, 0);
     }
-}
+});
 
-// ---- Game Scene ----
-class Game extends Phaser.Scene
-{
-    constructor ()
+var Game = new Phaser.Class({
+
+    Extends: Phaser.Scene,
+
+    initialize: function Game ()
     {
-        super('Game');
-    }
+        Phaser.Scene.call(this, 'Game');
+    },
 
-    create ()
+    create: function ()
     {
         this.mapWidth = 50;
         this.mapHeight = 38;
@@ -331,9 +335,9 @@ class Game extends Phaser.Scene
         this.input.on('pointerdown', function () { self.playerAttack(); });
         this.input.keyboard.on('keydown-SPACE', function () { self.playerAttack(); });
         this.input.keyboard.on('keydown-E', function () { self.usePotion(); });
-    }
+    },
 
-    generateMap ()
+    generateMap: function ()
     {
         var map = [];
         for (var my = 0; my < this.mapHeight; my++)
@@ -402,9 +406,9 @@ class Game extends Phaser.Scene
 
         this.rooms = rooms;
         return map;
-    }
+    },
 
-    carveHCorridor (map, x1, x2, y)
+    carveHCorridor: function (map, x1, x2, y)
     {
         var start = Math.min(x1, x2);
         var end = Math.max(x1, x2);
@@ -412,9 +416,9 @@ class Game extends Phaser.Scene
         {
             if (y > 0 && y < this.mapHeight - 1) map[y][x] = 0;
         }
-    }
+    },
 
-    carveVCorridor (map, y1, y2, x)
+    carveVCorridor: function (map, y1, y2, x)
     {
         var start = Math.min(y1, y2);
         var end = Math.max(y1, y2);
@@ -422,9 +426,9 @@ class Game extends Phaser.Scene
         {
             if (x > 0 && x < this.mapWidth - 1) map[y][x] = 0;
         }
-    }
+    },
 
-    renderMap ()
+    renderMap: function ()
     {
         for (var y = 0; y < this.mapHeight; y++)
         {
@@ -442,9 +446,9 @@ class Game extends Phaser.Scene
                 }
             }
         }
-    }
+    },
 
-    findOpenTile ()
+    findOpenTile: function ()
     {
         if (this.rooms && this.rooms.length > 0)
         {
@@ -460,9 +464,9 @@ class Game extends Phaser.Scene
             var y = Phaser.Math.Between(1, this.mapHeight - 2);
             if (this.map[y][x] === 0) return { x: x, y: y };
         }
-    }
+    },
 
-    findOpenTileInRoom (roomIndex)
+    findOpenTileInRoom: function (roomIndex)
     {
         var room = this.rooms[roomIndex];
         var attempts = 0;
@@ -474,9 +478,9 @@ class Game extends Phaser.Scene
             attempts++;
         }
         return null;
-    }
+    },
 
-    spawnEnemies (count)
+    spawnEnemies: function (count)
     {
         for (var i = 0; i < count && i + 1 < this.rooms.length; i++)
         {
@@ -501,17 +505,17 @@ class Game extends Phaser.Scene
             enemy.patrolTarget = this.getRandomPatrolPoint(this.rooms[i + 1]);
             enemy.homeRoom = i + 1;
         }
-    }
+    },
 
-    getRandomPatrolPoint (room)
+    getRandomPatrolPoint: function (room)
     {
         return {
             x: Phaser.Math.Between(room.x + 1, room.x + room.w - 2) * this.tileSize + this.tileSize / 2,
             y: Phaser.Math.Between(room.y + 1, room.y + room.h - 2) * this.tileSize + this.tileSize / 2
         };
-    }
+    },
 
-    spawnItems ()
+    spawnItems: function ()
     {
         for (var i = 1; i < this.rooms.length; i++)
         {
@@ -541,25 +545,25 @@ class Game extends Phaser.Scene
                 }
             }
         }
-    }
+    },
 
-    collectPotion (player, potion)
+    collectPotion: function (player, potion)
     {
         potion.destroy();
         this.player.potions++;
         this.showFloatingText(player.x, player.y - 12, '+1 Potion', '#ff6666');
         this.updateHUD();
-    }
+    },
 
-    collectCoin (player, coin)
+    collectCoin: function (player, coin)
     {
         coin.destroy();
         this.player.gold += 10;
         this.showFloatingText(player.x, player.y - 12, '+10 Gold', '#ffd700');
         this.updateHUD();
-    }
+    },
 
-    usePotion ()
+    usePotion: function ()
     {
         if (this.player.potions > 0 && this.player.hp < this.player.maxHp)
         {
@@ -568,9 +572,9 @@ class Game extends Phaser.Scene
             this.showFloatingText(this.player.x, this.player.y - 12, '+30 HP', '#66ff66');
             this.updateHUD();
         }
-    }
+    },
 
-    playerAttack ()
+    playerAttack: function ()
     {
         if (this.attackCooldown) return;
         this.attackCooldown = true;
@@ -605,9 +609,9 @@ class Game extends Phaser.Scene
         this.player.setTint(0xffaa00);
         this.time.delayedCall(100, function () { self.player.clearTint(); });
         this.time.delayedCall(400, function () { self.attackCooldown = false; });
-    }
+    },
 
-    defeatEnemy (enemy)
+    defeatEnemy: function (enemy)
     {
         this.showFloatingText(enemy.x, enemy.y - 12, 'Defeated!', '#ff4444');
         var goldDrop = Phaser.Math.Between(5, 20);
@@ -620,9 +624,9 @@ class Game extends Phaser.Scene
         {
             this.showFloatingText(this.player.x, this.player.y - 24, 'Dungeon Cleared!', '#66ff66');
         }
-    }
+    },
 
-    showFloatingText (x, y, text, color)
+    showFloatingText: function (x, y, text, color)
     {
         var floatText = this.add.text(x, y, text, {
             fontFamily: 'monospace',
@@ -639,9 +643,9 @@ class Game extends Phaser.Scene
             duration: 800,
             onComplete: function () { floatText.destroy(); }
         });
-    }
+    },
 
-    createHUD ()
+    createHUD: function ()
     {
         var padding = 10;
         var barWidth = 120;
@@ -674,9 +678,9 @@ class Game extends Phaser.Scene
             fontSize: '12px',
             color: '#aaaaaa'
         }).setScrollFactor(0).setDepth(200);
-    }
+    },
 
-    updateHUD ()
+    updateHUD: function ()
     {
         var hpRatio = Math.max(0, this.player.hp / this.player.maxHp);
         this.hpBarFill.width = 120 * hpRatio;
@@ -689,9 +693,9 @@ class Game extends Phaser.Scene
         this.goldText.setText('Gold: ' + this.player.gold);
         this.potionText.setText('Potions: ' + this.player.potions + '  [E] use');
         this.enemyText.setText('Enemies: ' + this.enemies.countActive());
-    }
+    },
 
-    update ()
+    update: function ()
     {
         var vx = 0;
         var vy = 0;
@@ -767,9 +771,9 @@ class Game extends Phaser.Scene
         }
 
         this.updateHUD();
-    }
+    },
 
-    gameOver ()
+    gameOver: function ()
     {
         this.physics.pause();
         this.player.setTint(0xff0000);
@@ -812,9 +816,8 @@ class Game extends Phaser.Scene
         this.input.once('pointerdown', function () { self.scene.restart(); });
         this.input.keyboard.once('keydown-SPACE', function () { self.scene.restart(); });
     }
-}
+});
 
-// ---- Game Config ----
 var config = {
     type: Phaser.AUTO,
     width: 800,
@@ -828,11 +831,7 @@ var config = {
         }
     },
     scene: [Boot, Preloader, MainMenu, Game],
-    pixelArt: true,
-    scale: {
-        mode: Phaser.Scale.FIT,
-        autoCenter: Phaser.Scale.CENTER_BOTH
-    }
+    pixelArt: true
 };
 
 var game = new Phaser.Game(config);
